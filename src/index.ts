@@ -1,8 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
 import http from 'http';
-import https from 'https';
-import fs from 'fs';
 import { WebSocketServer } from 'ws';
 import cors from 'cors';
 import { GoogleGenerativeAI } from '@google/generative-ai';
@@ -24,7 +22,7 @@ wss.on('connection', (ws) => {
     console.log('Received message:', userMessage);
 
     try {
-      const geminiApiKey = process.env.GEMINI_API_KEY || '';
+      const geminiApiKey = process.env.GEMINI_API_KEY || ''; 
       const genAI = new GoogleGenerativeAI(geminiApiKey);
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
       const result = await model.generateContentStream([userMessage]);
@@ -39,8 +37,12 @@ wss.on('connection', (ws) => {
     }
   });
 
-  ws.on('close', () => {
-    console.log('Client disconnected');
+  ws.on('close', (code, reason) => {
+    console.log(`Client disconnected: ${code} - ${reason}`);
+  });
+
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
   });
 });
 
