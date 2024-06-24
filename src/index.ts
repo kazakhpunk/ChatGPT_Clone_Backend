@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
+// Basic route for root URL
 app.get('/', (req, res) => {
   res.send('Backend is running');
 });
