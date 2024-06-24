@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Backend is running');
+});
+
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
